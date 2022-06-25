@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class WayPoint : MonoBehaviour
 {
     public Image sprite;
     public Transform target;
 
+    public TextMeshProUGUI distance;
+
     float minX,maxX,minY,maxY;
     // Update is called once per frame
     void Update()
     {
+        distance.text = Vector3.Distance(transform.position,target.position).ToString("F0");
         minX = sprite.GetPixelAdjustedRect().width / 2;
         maxX = Screen.width - minX;
         minY = sprite.GetPixelAdjustedRect().height / 2;
