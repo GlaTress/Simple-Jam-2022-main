@@ -7,6 +7,12 @@ public class Ship_Control : MonoBehaviour
 {   
     public delegate void onPackageDelivered();
     public static onPackageDelivered onDelivered;
+
+    public delegate void onExitSafeZone();
+    public static onExitSafeZone leftZone;
+
+    public delegate void onReturnSafeZone();
+    public static event onReturnSafeZone onReturned;
     private Rigidbody rb;
     private bool clicked = false;
 
@@ -78,7 +84,7 @@ public class Ship_Control : MonoBehaviour
         {
             nextRotation.y += xSensitivity;
         }
-        nextRotation.x = Mathf.Clamp(nextRotation.x,-60,60);
+        nextRotation.x = Mathf.Clamp(nextRotation.x,-70,70);
         transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.Euler(nextRotation),5);
 
     }
@@ -87,6 +93,20 @@ public class Ship_Control : MonoBehaviour
         if(other.CompareTag("Package"))
         {
             onDelivered?.Invoke();
+        }
+
+        if(other.CompareTag("Zone"))
+        {
+            onReturned?.Invoke();
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag("Zone"))
+        {
+            leftZone?.Invoke();
+            Debug.Log("Exit UWU");
         }
     }
 }
