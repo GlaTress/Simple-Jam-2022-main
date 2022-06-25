@@ -29,6 +29,7 @@ public class Package : MonoBehaviour
 
             if(Input.GetKeyDown(KeyCode.Space))
             {
+                SoundManager.PlaySound("Drop");
                 picked = false;
                 col.enabled = false;
                 rb.isKinematic = false;
@@ -48,6 +49,7 @@ public class Package : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            SoundManager.PlaySound("Pickup");
             picked = true;
         }
         if(other.CompareTag("Finish"))

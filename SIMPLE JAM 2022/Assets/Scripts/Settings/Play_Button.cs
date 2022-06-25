@@ -19,4 +19,16 @@ public class Play_Button : MonoBehaviour
     {
         Application.Quit();
     }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            Restart();
+        }
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            Quit();
+        }
+    }
 }

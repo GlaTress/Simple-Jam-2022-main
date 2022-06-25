@@ -14,6 +14,8 @@ public class Ship_Control : MonoBehaviour
     private bool clicked = false;
     private bool canControl = true;
 
+    private AudioSource source;
+
     [SerializeField]
     private float maxSpeed = 10;
     [SerializeField]
@@ -24,6 +26,7 @@ public class Ship_Control : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -44,6 +47,16 @@ public class Ship_Control : MonoBehaviour
                 rb.velocity =Vector3.ClampMagnitude(rb.velocity,maxSpeed);
             }
             RotateShip();
+        }
+        if(clicked)
+        {
+            source.Play();
+            source.loop = true;
+        }
+        else
+        {
+            source.Stop();
+            source.loop = false;
         }
         
     }
@@ -111,6 +124,7 @@ public class Ship_Control : MonoBehaviour
     {
         if(collision.transform.CompareTag("Asteroid"))
         {
+            SoundManager.PlaySound("Crash");
             canControl = false;
             StartCoroutine("ReturnControl");
         }
