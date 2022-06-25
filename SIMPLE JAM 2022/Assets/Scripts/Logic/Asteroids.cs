@@ -13,13 +13,7 @@ public class Asteroids : MonoBehaviour
         {
 
             Transform temp = Instantiate(asteroids, Random.insideUnitSphere * Radius, Random.rotation);
-            temp.localScale = temp.localScale * Random.Range(0.5f, 5);
+            temp.localScale = temp.localScale * Random.Range(2f, 5);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

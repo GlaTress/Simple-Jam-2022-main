@@ -15,7 +15,7 @@ public class WayPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distance.text = Vector3.Distance(transform.position,target.position).ToString("F0");
+        distance.text = Vector3.Distance(transform.position,target.position).ToString("F0") +"m";
         minX = sprite.GetPixelAdjustedRect().width / 2;
         maxX = Screen.width - minX;
         minY = sprite.GetPixelAdjustedRect().height / 2;

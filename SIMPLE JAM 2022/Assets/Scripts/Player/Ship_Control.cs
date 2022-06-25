@@ -5,9 +5,6 @@ using DG.Tweening;
 
 public class Ship_Control : MonoBehaviour
 {   
-    public delegate void onPackageDelivered();
-    public static onPackageDelivered onDelivered;
-
     public delegate void onExitSafeZone();
     public static onExitSafeZone leftZone;
 
@@ -15,6 +12,7 @@ public class Ship_Control : MonoBehaviour
     public static event onReturnSafeZone onReturned;
     private Rigidbody rb;
     private bool clicked = false;
+    private bool canControl = true;
 
     [SerializeField]
     private float maxSpeed = 10;
@@ -31,32 +29,35 @@ public class Ship_Control : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(0))
+        if(canControl)
         {
-            clicked = true;
+            if(Input.GetMouseButton(0))
+            {
+                clicked = true;
+            }
+            if(Input.GetMouseButtonUp(0))
+            {
+                clicked = false;
+            }
+            if(rb.velocity.magnitude > maxSpeed)
+            {
+                rb.velocity =Vector3.ClampMagnitude(rb.velocity,maxSpeed);
+            }
+            RotateShip();
         }
-        if(Input.GetMouseButtonUp(0))
-        {
-            clicked = false;
-        }
-
-        if(rb.velocity.magnitude > maxSpeed)
-        {
-            rb.velocity =Vector3.ClampMagnitude(rb.velocity,maxSpeed);
-            
-        }
-        RotateShip();
-
         
-
     }
 
     void FixedUpdate()
-    {
-        if(clicked)
+    {   
+        if(canControl)
         {
-            GoForward();
+            if(clicked)
+            {
+                GoForward();
+            }
         }
+
     }
 
     private void GoForward()
@@ -90,10 +91,6 @@ public class Ship_Control : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Package"))
-        {
-            onDelivered?.Invoke();
-        }
 
         if(other.CompareTag("Zone"))
         {
@@ -108,5 +105,20 @@ public class Ship_Control : MonoBehaviour
             leftZone?.Invoke();
             Debug.Log("Exit UWU");
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.transform.CompareTag("Asteroid"))
+        {
+            canControl = false;
+            StartCoroutine("ReturnControl");
+        }
+    }
+
+    private IEnumerator ReturnControl()
+    {
+        yield return new WaitForSeconds(3);
+        canControl = true;
     }
 }
