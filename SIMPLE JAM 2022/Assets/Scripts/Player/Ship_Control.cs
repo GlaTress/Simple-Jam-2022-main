@@ -70,22 +70,22 @@ public class Ship_Control : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.W))
         {
-            nextRotation.x += xSensitivity;
+            nextRotation.x += xSensitivity * Time.deltaTime;
         }
         else if(Input.GetKey(KeyCode.S))
         {
-            nextRotation.x -= xSensitivity;
+            nextRotation.x -= xSensitivity * Time.deltaTime;
         }
         else if(Input.GetKey(KeyCode.A))
         {
-            nextRotation.y -= xSensitivity;
+            nextRotation.y -= xSensitivity * Time.deltaTime;
         }
         else if(Input.GetKey(KeyCode.D))
         {
-            nextRotation.y += xSensitivity;
+            nextRotation.y += xSensitivity * Time.deltaTime;
         }
-        nextRotation.x = Mathf.Clamp(nextRotation.x,-70,70);
-        transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.Euler(nextRotation),5);
+        nextRotation.x = Mathf.Clamp(nextRotation.x,-90,90);
+        transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.Euler(nextRotation),5 * Time.deltaTime);
 
     }
     void OnTriggerEnter(Collider other)
